@@ -35,17 +35,14 @@ exports.updatemessage = async (req, res) => {
   try {
     const { messageId, updatedMessageValue } = req.body;
 
-    // Validate input
     if (!messageId || !updatedMessageValue) {
       return res.status(400).json({ message: "Message ID and updated value are required" });
     }
-    // Find the message by ID
     const message = await Message.findById(messageId);
 
     if (!message) {
       return res.status(404).json({ message: "Message not found" });
     }
-    // Update the message content
     message.text = updatedMessageValue;
     message.hasbeenupdated=true;
     // Save the updated message

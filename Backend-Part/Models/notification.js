@@ -24,7 +24,7 @@ const notificationSchema = new mongoose.Schema(
       default: false,
     },
     type: {
-      type: String, // e.g., "message", "friend_request"
+      type: String, 
       default: "message",
     },
   },

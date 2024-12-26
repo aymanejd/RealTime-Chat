@@ -1,4 +1,4 @@
-const Notification = require("../models/notification");
+const Notification = require("../Models/notification");
 const User = require('../Models/user');
 const { io, getReceiverSocketId } = require('../configue/socketio');
 
@@ -10,7 +10,7 @@ exports.getuser=async (req,res)=>{
  
   res.status(200).json(user);}
   catch(error){
-    console.error("Error fetching notifications:", error); // Log the error details
+    console.error("Error fetching notifications:", error);
     res.status(500).json({ message: "Server error" })
   }
 
@@ -23,7 +23,7 @@ exports.getnotifications = async (req, res) => {
   
       res.status(200).json(notifications);
     } catch (error) {
-      console.error("Error fetching notifications:", error); // Log the error details
+      console.error("Error fetching notifications:", error);
       res.status(500).json({ message: "Server error" });
     }
   };
@@ -41,10 +41,9 @@ exports.getnotifications = async (req, res) => {
   
       res.status(200).json(notification);
     } catch (error) {
-      console.error("Error fetching notifications:", error); // Log the error details
+      console.error("Error fetching notifications:", error); 
       res.status(500).json({ message: "Server error" });
     }
   };
 
-// Create a new notification
 

@@ -17,7 +17,7 @@ dotenv.config()
 const port = process.env.PORT;
 app.use(express.json({
     limit: '5mb'
-    }));app.use(bodyParser.json({ limit: '10mb' })); // Adjust the limit as needed
+    }));app.use(bodyParser.json({ limit: '10mb' })); 
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 app.use(cookieparser())

@@ -3,7 +3,6 @@ const router = express.Router();
 const AuthContoller=require('../Controllers/AuthController.js');
 const  verifyToken  = require('../Middleware/Authmiddleware.js');
 
-// Sample Routes
 router.post('/signup',AuthContoller.signup);
 router.post('/login',AuthContoller.login);
 router.post('/logout', AuthContoller.logout);
