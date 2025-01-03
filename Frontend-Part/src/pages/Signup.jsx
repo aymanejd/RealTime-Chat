@@ -48,11 +48,9 @@ const SignUp = () => {
   };
   
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }} className="min-h-screen  grid lg:grid-cols-2">
-      {/* left side */}
+    <div className="min-h-screen  grid mt-12">
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-lg space-y-8">
-          {/* LOGO */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div
@@ -148,7 +146,6 @@ const SignUp = () => {
         </div>
       </div>
 
-      {/* right side */}
 
      
     </div>

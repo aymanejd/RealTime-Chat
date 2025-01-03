@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const Updatemessage = () => {
   const [message, setMessage] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
   const messageInputRef = useRef("");
   const { updateMessage, messagevaluefroupdate, Messageupdatecancel } = ChatStore();
 

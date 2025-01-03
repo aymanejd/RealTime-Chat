@@ -43,6 +43,11 @@ exports.updatemessage = async (req, res) => {
     if (!message) {
       return res.status(404).json({ message: "Message not found" });
     }
+    if(message.senderId.toString()!==req.user._id.toString()){
+      console.log(typeof message.senderId, typeof req.user._id);
+
+      return res.status(403).json({ message: "You are not authorized to update this message"})
+    }
     message.text = updatedMessageValue;
     message.hasbeenupdated=true;
     // Save the updated message
@@ -67,7 +72,10 @@ exports.deleteMessage = async (req, res) => {
     const { messageId } = req.body;
 
     const myId = req.user._id;
-
+    const message = await Message.findById(messageId);
+    if(message.senderId.toString()!==req.user._id.toString()){
+      return res.status(403).json({ message: `messsage sender id ${message.senderId} auth id : ${myId}`})
+    }
     await Message.findByIdAndDelete(messageId);
     const messages = await Message.find({
       $or: [

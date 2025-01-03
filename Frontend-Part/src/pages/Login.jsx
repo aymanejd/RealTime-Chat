@@ -17,11 +17,9 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen grid lg:grid-cols-2 sm:w-full">
-      {/* Left Side - Form */}
+    <div className="h-screen grid lg:grid sm:w-full">
       <div className="flex flex-col justify-center items-center  sm:!p-0">
       <div className="w-full max-w-md space-y-8 ">
-      {/* Logo */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div
@@ -35,7 +33,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="form-control">
               <label className="label">

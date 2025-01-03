@@ -5,24 +5,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";  // Import the edit and delete icons
 import '../index.css'
 
-const DropdownMenu = ({ messageId, receiverId, currentOpenDropdown, setOpenDropdown }) => {
+const DropdownMenu = ({ messageId, receiverId, bubblerf, currentOpenDropdown, setOpenDropdown }) => {
     //const [isOpen, setIsOpen] = useState(false);
     const isOpen = currentOpenDropdown === messageId;
     const dropdownRef = useRef(null);
+    const [rightOffset, setRightOffset] = useState(0);
 
     const {
 
         deleteMessage,
         subscribeToMessages,
         getMessageforupdate,
-        unsubscribeFromMessages
+        unsubscribeFromMessages,
+        updatemessage
     } = ChatStore();
+
+    
+    useEffect(() => {
+        const updateOffset = () => {
+            if (bubblerf.current) {
+                setRightOffset(bubblerf.current.offsetWidth);
+            }
+        };
+
+        updateOffset();
+
+    }, [bubblerf.current?.offsetWidth]);
+
+
     useEffect(() => {
 
         subscribeToMessages();
         return () => { unsubscribeFromMessages() };
 
     }, [subscribeToMessages]);
+
+
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (!dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -40,11 +59,14 @@ const DropdownMenu = ({ messageId, receiverId, currentOpenDropdown, setOpenDropd
         setOpenDropdown(isOpen ? null : messageId); // Close if already open, otherwise open
     }; const deletemessage = () => {
         deleteMessage(messageId)
+        setOpenDropdown(null)
         subscribeToMessages()
     }
+    if (updatemessage) return;
     return (
         (
-            <div className="relative inline-block text-left" ref={dropdownRef}>
+            <div className="relative inline-block text-left" style={{ right: `${rightOffset}px` }} // Apply dynamic offset
+                ref={dropdownRef}>
                 <FontAwesomeIcon
                     onClick={toggleDropdown}
                     role="button"
@@ -85,13 +107,13 @@ const DropdownMenu = ({ messageId, receiverId, currentOpenDropdown, setOpenDropd
                                             Unsent messages can't be included .
                                         </p>
 
-                                        <div className="modal-action mt-4 flex justify-end space-x-3">
+                                        <div className="modal-action mt-4 flex justify-end space-x-3" >
                                             <form method="dialog" className="flex items-center space-x-3">
-                                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:bg-gray-200 focus:outline-none">
+                                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:bg-gray-200 focus:outline-none" onClick={() => setOpenDropdown(null)}>
                                                     ✕
                                                 </button>
 
-                                                <button className="btn bg-transparent  hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out">
+                                                <button className="btn bg-transparent  hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out" onClick={() => setOpenDropdown(null)}>
                                                     Cancel
                                                 </button>
                                                 <button onClick={() => deletemessage()} className="btn  btn-error hover:bg-red-600 hover:text-white transition duration-300 ease-in-out">
@@ -107,6 +129,8 @@ const DropdownMenu = ({ messageId, receiverId, currentOpenDropdown, setOpenDropd
                     </div>
                 )}
             </div>
+
+
         )
     )
 };

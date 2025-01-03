@@ -4,12 +4,10 @@ import MessageSkeleton from "./skeletons/MessageSkeleton";
 import MessageInput from "./MessageInput";
 import { AuthStore } from "../Store/AuthStore";
 import ChatHeader from "./ChatHeader";
-import {  Mail } from "lucide-react";
+import React from "react";
 import '../index.css'
 import DropdownMenu from "./Dropdown";
 import { NotificationStore } from "../Store/NotificationStore";
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Updatemessage from "./Updatemessage"
 const ChatContainer = () => {
   const {
@@ -22,6 +20,8 @@ const ChatContainer = () => {
     updatemessage,
   } = ChatStore();
   const [currentOpenDropdown, setOpenDropdown] = useState(null);
+  const bubbleRefs = useRef({}); // Store refs for each bubble
+
 
   const {subscribeToMNotification,unsubscribeFromNotification}= NotificationStore();
   const { authUser } = AuthStore();
@@ -47,6 +47,12 @@ const ChatContainer = () => {
       hour12: false,
     });
   }
+  const createBubbleRef = (messageId) => {
+    if (!bubbleRefs.current[messageId]) {
+      bubbleRefs.current[messageId] = React.createRef();
+    }
+    return bubbleRefs.current[messageId];
+  };
 
   if (isMessagesLoading) {
     return (
@@ -71,11 +77,7 @@ const ChatContainer = () => {
             className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
-            {message.senderId === authUser._id ? ( 
-              <DropdownMenu key={message._id}
-              messageId={message._id}  currentOpenDropdown={currentOpenDropdown}
-              setOpenDropdown={setOpenDropdown}/>) 
- :''}
+          
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
                 <img
@@ -94,7 +96,7 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col">
+            <div className="chat-bubble flex flex-row"  ref={createBubbleRef(message._id)}>
               {message.image && (
                 <img
                   src={message.image}
@@ -103,7 +105,13 @@ const ChatContainer = () => {
                 />
               )}
               {message.text && <p>{message.text}</p>}
+              {message.senderId === authUser._id ? ( 
+              <DropdownMenu key={message._id}  bubblerf={bubbleRefs.current[message._id]}
+              messageId={message._id}  currentOpenDropdown={currentOpenDropdown}
+              setOpenDropdown={setOpenDropdown}/>) 
+ :''}
             </div>
+           
           </div>
         ))}
       </div>
