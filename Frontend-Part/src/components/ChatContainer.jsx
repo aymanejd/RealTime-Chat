@@ -4,10 +4,13 @@ import MessageSkeleton from "./skeletons/MessageSkeleton";
 import MessageInput from "./MessageInput";
 import { AuthStore } from "../Store/AuthStore";
 import ChatHeader from "./ChatHeader";
+import {  Mail } from "lucide-react";
 import React from "react";
 import '../index.css'
 import DropdownMenu from "./Dropdown";
 import { NotificationStore } from "../Store/NotificationStore";
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Updatemessage from "./Updatemessage"
 const ChatContainer = () => {
   const {

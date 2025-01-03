@@ -96,8 +96,8 @@ export const ChatStore = create((set, get) => ({
 
     const socket = AuthStore.getState().socket;
 
-    get().unsubscribeFromMessages();
-
+    socket.off("newMessage"); 
+    socket.off("messageDeleted");
 
     socket.on("newMessage", (newMessage) => {
       if (newMessage.senderId === selectedUser._id) {
@@ -122,8 +122,26 @@ export const ChatStore = create((set, get) => ({
     });
   },
 
+  unsubscribeFromdeleteMessages: () => {
+    const socket = AuthStore.getState().socket;
+    socket.off("messageDeleted");
+
+  },
+  subscribeFromdeleteMessages: () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return;
+
+    const socket = AuthStore.getState().socket;
 
 
+
+    socket.on("messageDeleted", (messageId) => {
+      set({
+        messages: get().messages.filter((message) => message._id !== messageId),
+      });
+    });
+
+  },
   unsubscribeFromMessages: () => {
     const socket = AuthStore.getState().socket;
     socket.off("newMessage");

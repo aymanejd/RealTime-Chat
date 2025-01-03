@@ -1,26 +1,26 @@
 
 
-const authRoutes = require('./Routes/auth.js');
-const cors =require('cors')
-const dotenv = require('dotenv');
-const { Dbconnect } = require('./configue/db.js');
-const cookieparser= require('cookie-parser')
-const MessageRoute = require('./Routes/message.js');
-const bodyParser = require('body-parser');
-const { app, server, io, getReceiverSocketId } = require('./configue/socketio');
-const express = require("express");
-const Notification = require('./Routes/notifications.js');
-const path =require('path');
+import authRoutes from './Routes/auth.js';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { Dbconnect } from './configue/db.js';
+import cookieparser from 'cookie-parser';
+import MessageRoute from './Routes/message.js';
+import bodyParser from 'body-parser';
+import { app, server, io, getReceiverSocketId } from './configue/socketio.js';
+import express from 'express';
+import Notification from './Routes/notifications.js';
+import path from 'path';
 
 dotenv.config()
 const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../Frontend-Part/dist")));
-  
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../Frontend-Part", "dist", "index.html"));
-    });
-  }
+  app.use(express.static(path.join(__dirname, "../Frontend-Part/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../Frontend-Part", "dist", "index.html"));
+  });
+}
 const port = process.env.PORT;
 app.use(express.json({
     limit: '5mb'
