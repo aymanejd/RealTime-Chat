@@ -11,10 +11,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build":"",
-    "start":"",
+    "build":"npm install --prefix Backend-Part && npm install --prefix Frontend-Part && npm run build --prefix Frontend-Part ",
+    "start": "npm run start --prefix Backend-Part"
 
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

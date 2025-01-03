@@ -10,10 +10,17 @@ const bodyParser = require('body-parser');
 const { app, server, io, getReceiverSocketId } = require('./configue/socketio');
 const express = require("express");
 const Notification = require('./Routes/notifications.js');
-
+const path =require('path');
 
 dotenv.config()
-
+const __dirname = path.resolve();
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../Frontend-Part/dist")));
+  
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "../Frontend-Part", "dist", "index.html"));
+    });
+  }
 const port = process.env.PORT;
 app.use(express.json({
     limit: '5mb'
